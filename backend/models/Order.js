@@ -16,7 +16,7 @@ const orderSchema = new mongoose.Schema({
   grandTotal: Number,
   status: {
     type: String,
-    enum: ["Pending", "Preparing", "Ready", "Served","completed"],
+    enum: ["Pending", "Preparing", "Ready", "Served","Completed"],
     default: "Pending",
   },
   waiter: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // optional

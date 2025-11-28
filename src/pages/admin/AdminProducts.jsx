@@ -164,7 +164,7 @@ export default function AdminProducts() {
 
   return (
     <DashboardLayout>
-      <h1 className="text-2xl font-bold mb-4">Products</h1>
+      <h1 className="text-2xl font-bold mb-4">Items</h1>
 
       {/* FORM */}
       <form
@@ -172,7 +172,7 @@ export default function AdminProducts() {
         className="bg-white p-4 rounded-xl shadow mb-6 border"
       >
         <h2 className="text-lg font-semibold mb-3">
-          {editingId ? "Edit Product" : "Add Product"}
+          {editingId ? "Edit Product" : "Add Item"}
         </h2>
 
         <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">

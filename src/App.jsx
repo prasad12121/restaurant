@@ -121,14 +121,6 @@ function App() {
               }
             />
 
-            <Route
-              path="/waiter/tables"
-              element={
-                <ProtectedRoute role="waiter">
-                  <WaiterTables />
-                </ProtectedRoute>
-              }
-            />
             {/* protected waiter routes end */}
 
             <Route

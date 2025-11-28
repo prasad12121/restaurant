@@ -6,9 +6,10 @@ import { io } from "../server.js"; // this is enough
 export const createOrder = async (req, res) => {
   try {
     const { tableNumber, items, waiter } = req.body;
+    const statuses = ["Pending", "Preparing", "Ready", "Served"];
 
-    let order = await Order.findOne({ tableNumber, status: "Pending" });
-
+    let order = await Order.findOne({ tableNumber, status: { $in: statuses } });
+   // console.log("order is ",order);
     if (order) {
       // Append new items to existing order
       console.log("hi");
@@ -127,12 +128,15 @@ export const updateOrderItem = async (req, res) => {
 
 // Get active order for table
 export const getOrderByTable = async (req, res) => {
+
+  const statuses = ["Pending", "Preparing", "Ready", "Served"];
+
+   // let order = await Order.findOne({ tableNumber, status: { $in: statuses } });
   try {
     const { tableNumber } = req.params;
-
     const order = await Order.findOne({
       tableNumber: Number(tableNumber),
-      status: "Pending",
+      status: { $in: statuses },
     });
 
     res.json(order || null);
@@ -145,16 +149,21 @@ export const getOrderByTable = async (req, res) => {
 export const finalizeOrder = async (req, res) => {
   const { orderId } = req.params;
 
+  console.log("orderid is",orderId);
+
   try {
+
     const order = await Order.findById(orderId);
+    console.log("finalize order is test",order); //getting order detail full
     if (!order) return res.status(404).json({ message: "Order not found" });
 
-    order.subtotal = order.items.reduce((sum, item) => sum + item.total, 0);
-    order.gst = order.subtotal * 0.05;
-    order.grandTotal = order.subtotal + order.gst;
-    order.status = "Completed";
-
-    await order.save();
+   // order.subtotal = order.items.reduce((sum, item) => sum + item.total, 0);
+   // order.gst = order.subtotal * 0.05;
+    //order.grandTotal = order.subtotal + order.gst;
+   // order.status = "Completed";
+    order.set('status',"Completed")
+    await order.save();//i think here is not updated
+     
 
     // unlock table
     await Table.findOneAndUpdate(
@@ -166,6 +175,7 @@ export const finalizeOrder = async (req, res) => {
 
     res.json({ message: "Order finalized", order });
   } catch (err) {
+    console.log("finalize error issss:",err);
     res.status(500).json({ message: "Internal server error" });
   }
 };

@@ -11,7 +11,7 @@ const Sidebar = ({ isOpen, onClose }) => {
   const menus = {
     admin: [
       { name: "Dashboard", path: "/admin" },
-      { name: "Products", path: "/admin/products" },
+      { name: "Items", path: "/admin/products" },
       { name: "Categories", path: "/admin/categories" },
       { name: "Orders", path: "/admin/orders" },
       { name: "Users", path: "/admin/users" },
@@ -20,7 +20,6 @@ const Sidebar = ({ isOpen, onClose }) => {
     waiter: [
       { name: "Dashboard", path: "/waiter" },
       { name: "Take Order", path: "/waiter/order" },
-      { name: "Tables", path: "/waiter/tables" },
     ],
     kitchen: [
       { name: "Dashboard", path: "/kitchen" },

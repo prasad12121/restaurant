@@ -47,7 +47,9 @@ const TakeOrder = () => {
     const fetchMenu = async () => {
       const products = await getAllProducts();
 
-      const grouped = products.reduce((acc, item) => {
+      const availableProducts =products.filter((p)=>p.isAvailable === true);
+      
+      const grouped = availableProducts.reduce((acc, item) => {
         acc[item.category] = acc[item.category] || [];
         acc[item.category].push(item);
         return acc;

@@ -26,7 +26,9 @@ export default function AdminDashboard() {
 
       const revenue = orders
         .filter((o) => o.status === "Completed")
-        .reduce((sum, o) => sum + o.totalAmount, 0);
+        .reduce((sum, o) => sum + o.subtotal, 0);
+
+        console.log(revenue);
 
       const pendingOrders = orders.filter(
         (o) => o.status === "Pending"
@@ -64,7 +66,7 @@ export default function AdminDashboard() {
 
         {/* Total Products */}
         <div className="p-6 bg-white shadow rounded-xl border">
-          <p className="text-gray-500 text-sm">Products</p>
+          <p className="text-gray-500 text-sm">Items</p>
           <p className="text-3xl font-bold mt-2">{stats.totalProducts}</p>
         </div>
 
@@ -80,7 +82,7 @@ export default function AdminDashboard() {
       <div className="mt-6 p-6 bg-green-50 border border-green-200 rounded-xl shadow">
         <p className="text-gray-600 text-sm">Total Revenue</p>
         <p className="text-4xl font-bold text-green-700 mt-2">
-          ₹ {stats.revenue.toLocaleString()}
+          ₹ {stats.revenue}
         </p>
       </div>
     </DashboardLayout>
