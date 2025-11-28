@@ -23,7 +23,7 @@ const Sidebar = ({ isOpen, onClose }) => {
     ],
     kitchen: [
       { name: "Dashboard", path: "/kitchen" },
-      { name: "New Orders", path: "/kitchen/orders" },
+      { name: "Completed Orders", path: "/kitchen/completed-orders" },
     ],
   };
 

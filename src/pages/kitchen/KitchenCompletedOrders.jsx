@@ -1,25 +1,17 @@
 import { useEffect, useState } from "react";
-import { getOrders, updateOrderStatus } from "@/api/orderApi";
+import { getOrders } from "@/api/orderApi";
 import DashboardLayout from "../../components/layouts/DashboardLayout";
 import socket from "../../socket";
 
-const statusOptions = ["Pending", "Preparing", "Ready", "Served"];
 
-const statusColors = {
-  Pending: "bg-yellow-100 text-yellow-800 border-yellow-300",
-  Preparing: "bg-blue-100 text-blue-800 border-blue-300",
-  Ready: "bg-green-100 text-green-800 border-green-300",
-  Served: "bg-gray-200 text-gray-700 border-gray-300",
-};
-
-const KitchenDashboard = () => {
+const KitchenCompletedOrder = () => {
   const [orders, setOrders] = useState([]);
 
   // Fetch initial orders
   const fetchOrders = async () => {
     try {
       const data = await getOrders();
-      const availableProducts =data.filter((p)=>p.status != "Completed");
+      const availableProducts =data.filter((p)=>p.status === "Completed");
       setOrders(availableProducts);
     } catch (err) {
       console.error(err);
@@ -39,7 +31,6 @@ const KitchenDashboard = () => {
         )
       );
     };
-
     socket.on("newOrder", handleNewOrder);
     socket.on("updateOrder", handleUpdateOrder);
 
@@ -48,14 +39,6 @@ const KitchenDashboard = () => {
       socket.off("updateOrder", handleUpdateOrder);
     };
   }, []);
-
-  const handleStatusChange = async (orderId, newStatus) => {
-    try {
-      await updateOrderStatus(orderId, newStatus);
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   return (
     <DashboardLayout>
@@ -78,7 +61,7 @@ const KitchenDashboard = () => {
                 <h2 className="text-xl font-bold">Table {order.tableNumber}</h2>
 
                 <span
-                  className={`px-3 py-1 text-sm font-semibold rounded-full border ${statusColors[order.status]}`}
+                  className={`px-3 py-1 text-sm font-semibold rounded-full border bg-yellow-100 text-yellow-800 border-yellow-300`}
                 >
                   {order.status}
                 </span>
@@ -115,30 +98,7 @@ const KitchenDashboard = () => {
                <span>₹{(Number(order?.grandTotal) || 0).toFixed(2)}</span>
                 </div>
               </div>
-
-              {/* STATUS BUTTONS */}
-              <div className="mt-5 grid grid-cols-2 gap-3">
-                {statusOptions.map((status) => (
-                  <button
-                    key={status}
-                    onClick={() => handleStatusChange(order._id, status)}
-                    disabled={order.status === status}
-                    className={`py-2 rounded-xl text-white font-semibold shadow-sm transition 
-                      ${
-                        status === "Pending"
-                          ? "bg-yellow-500"
-                          : status === "Preparing"
-                          ? "bg-blue-500"
-                          : status === "Ready"
-                          ? "bg-green-500"
-                          : "bg-gray-500"
-                      } 
-                      disabled:opacity-40`}
-                  >
-                    {status}
-                  </button>
-                ))}
-              </div>
+    
             </div>
           ))}
         </div>
@@ -147,4 +107,4 @@ const KitchenDashboard = () => {
   );
 };
 
-export default KitchenDashboard;
+export default KitchenCompletedOrder;

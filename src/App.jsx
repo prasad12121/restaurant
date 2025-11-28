@@ -19,6 +19,7 @@ import AdminProducts from "./pages/admin/AdminProducts.jsx";
 import AdminOrders from "./pages/admin/AdminOrders.jsx";
 import AdminUsers from "./pages/admin/AdminUsers.jsx";
 import AdminCategories from "./pages/admin/AdminCategories.jsx";
+import KitchenCompletedOrder from "./pages/kitchen/KitchenCompletedOrders.jsx";
 
 // Optional: ProtectedRoute for future dashboards
 const ProtectedRoute = ({ children, role }) => {
@@ -128,6 +129,15 @@ function App() {
               element={
                 <ProtectedRoute role="kitchen">
                   <KitchenDashboard />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/kitchen/completed-orders"
+              element={
+                <ProtectedRoute role="kitchen">
+                  <KitchenCompletedOrder />
                 </ProtectedRoute>
               }
             />

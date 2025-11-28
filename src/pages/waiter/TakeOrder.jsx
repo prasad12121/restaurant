@@ -48,7 +48,7 @@ const TakeOrder = () => {
       const products = await getAllProducts();
 
       const availableProducts =products.filter((p)=>p.isAvailable === true);
-      
+
       const grouped = availableProducts.reduce((acc, item) => {
         acc[item.category] = acc[item.category] || [];
         acc[item.category].push(item);
@@ -146,9 +146,6 @@ const TakeOrder = () => {
       alert("Failed to send order");
     }
   };
-
-
- 
 
   return (
     <DashboardLayout>
